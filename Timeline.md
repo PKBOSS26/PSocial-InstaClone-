@@ -43,3 +43,35 @@ This project is an Instagram clone that allows users to share photos, follow oth
 ---
 
 This was the first day of coding for the project, and I successfully implemented the backend structure with models, controllers, routes, and authentication. More features will follow, including the chat system, posts, comments, and interactive elements like likes.
+
+## Date: 17-10-2024
+
+1. **Post Controllers Developed:**
+   - **Post Controller:**
+     - **Add New Post** – Allows users to create a new post with an image and caption.
+     - **Get All Posts** – Retrieves all posts, including user details and comments.
+     - **Get Post by ID** – Fetches a specific post by its ID, along with associated comments.
+     - **Like Post** – Enables users to like a post.
+     - **Dislike Post** – Allows users to remove their like from a post.
+     - **Delete Post** – Deletes a specific post and removes it from the user's posts array.
+     - **Add Comment** – Lets users add comments to a post.
+     - **Get Comments of Post** – Retrieves all comments associated with a specific post.
+     - **Delete Comment** – Removes a specific comment from a post.
+
+2. **Routes Established:**
+   - **Post Routes:**
+     - Create, Read, Update, Delete (CRUD) operations for posts.
+     - Endpoints for liking, disliking, and commenting on posts.
+
+3. **Middleware Integration:**
+   - **Authentication Middleware** – Secures routes to ensure only logged-in users can interact with posts and comments.
+
+4. **Error Handling:**
+   - Implemented error handling for various scenarios, including missing posts, comments, and authentication failures.
+
+5. **Testing:**
+   - Conducted initial testing of post creation, retrieval, liking, and commenting functionalities.
+
+---
+
+This was a productive day focused on developing the post-related functionalities of the Instagram clone. The backend structure is coming together nicely, and I plan to work on the chat system and interactive features next.
