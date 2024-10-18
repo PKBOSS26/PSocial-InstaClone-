@@ -5,4 +5,4 @@ const commentSchema = new mongoose.Schema({
     author: {type:mongoose.Schema.Types.ObjectId, ref: 'User'}, //user will comment(who wrote)
     post:{type:mongoose.Schema.Types.ObjectId, ref:'Post', required:true}, //on which post
 })
-export default commentSchema = mongoose.model('commentSchema', commentSchema)
+export const Comment = mongoose.model('commentSchema', commentSchema)

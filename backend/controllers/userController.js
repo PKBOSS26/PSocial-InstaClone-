@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import getDataUri from "../utils/dataURI.js";
 import cloudinary from "../utils/cloudinary.js";
+import { Post } from "../model/postModel.js";
 
 // Signup
 export const signup = async (req, res) => {
@@ -36,6 +37,27 @@ export const login = async (req, res) => {
             return res.status(401).json({ msg: "Invalid credentials", success: false });
         }
         const token = jwt.sign({ userId: user._id }, process.env.JWT_PK_Secret, { expiresIn: "1d" });
+        
+        // Populate each post if in the user's posts array
+        const populatedPosts = await Promise.all(user.posts.map(async (postId) => {
+            const post = await Post.findById(postId);
+            if(post.author.toString() === user._id.toString()) {
+                return post;
+            }
+            return null;
+        }))
+
+        user = {
+            _id: user._id,
+            username: user.username,
+            email: user.email,
+            bio: user.bio,
+            gender: user.gender,
+            profilepicture: user.profilepicture,
+            followers: user.followers,
+            following: user.following,
+            posts: populatedPosts
+        }
         res.cookie("token", token, { httpOnly: true, sameSite: "strict", maxAge: 24 * 60 * 60 * 1000 })
            .json({ msg: `Welcome ${user.username}`, success: true });
     } catch (err) {
