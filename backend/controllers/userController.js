@@ -18,7 +18,7 @@ export const signup = async (req, res) => {
         }
         const hashedPassword = await bcrypt.hash(password, 10);
         await User.create({ username, email, password: hashedPassword });
-        res.status(201).json({ msg: "Account created successfully", success: true });
+        return res.status(201).json({ msg: "Account created successfully", success: true });
     } catch (err) {
         console.error(err);
         res.status(500).json({ msg: "Internal Server Error", success: false });
@@ -29,25 +29,31 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
     try {
         const { email, password } = req.body;
+
+        // Validate input
         if (!email || !password) {
             return res.status(400).json({ msg: "Email and password are required", success: false });
         }
+
+        // Find user by email
         const user = await User.findOne({ email });
         if (!user || !(await bcrypt.compare(password, user.password))) {
             return res.status(401).json({ msg: "Invalid credentials", success: false });
         }
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_PK_Secret, { expiresIn: "1d" });
-        
-        // Populate each post if in the user's posts array
-        const populatedPosts = await Promise.all(user.posts.map(async (postId) => {
-            const post = await Post.findById(postId);
-            if(post.author.toString() === user._id.toString()) {
-                return post;
-            }
-            return null;
-        }))
 
-        user = {
+        // Generate JWT token
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_PK_Secret, { expiresIn: "1d" });
+
+        // Populate user posts (filter out null values)
+        const populatedPosts = (
+            await Promise.all(user.posts.map(async (postId) => {
+                const post = await Post.findById(postId);
+                return post && post.author.toString() === user._id.toString() ? post : null;
+            }))
+        ).filter(post => post !== null);
+
+        // Construct user response object
+        const userData = {
             _id: user._id,
             username: user.username,
             email: user.email,
@@ -57,11 +63,18 @@ export const login = async (req, res) => {
             followers: user.followers,
             following: user.following,
             posts: populatedPosts
-        }
-        res.cookie("token", token, { httpOnly: true, sameSite: "strict", maxAge: 24 * 60 * 60 * 1000 })
-           .json({ msg: `Welcome ${user.username}`, success: true });
+        };
+
+        // Set cookie and send response
+        res.cookie("token", token, {
+            httpOnly: true,
+            sameSite: "strict",
+            maxAge: 24 * 60 * 60 * 1000, // 1 day
+            secure: process.env.NODE_ENV === "production", // Secure only in production
+        }).json({ msg: `Welcome ${user.username}`, success: true, user: userData });
+
     } catch (err) {
-        console.error(err);
+        console.error("Login Error:", err);
         res.status(500).json({ msg: "Internal Server Error", success: false });
     }
 };

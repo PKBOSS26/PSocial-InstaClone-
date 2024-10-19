@@ -75,3 +75,37 @@ This was the first day of coding for the project, and I successfully implemented
 ---
 
 This was a productive day focused on developing the post-related functionalities of the Instagram clone. The backend structure is coming together nicely, and I plan to work on the chat system and interactive features next.
+
+### Date: 18-10-2024
+
+1. **Message Controller Developed:**
+   - **Message Controller:**
+     - **Send Message** – Enables users to send messages in chat.
+     - **Get Messages** – Retrieves chat messages in a conversation.
+
+2. **Routes Established:**
+   - **Message Routes:**
+     - Created a write message route to handle sending messages.
+
+3. **Frontend Initialization:**
+   - Initialized the frontend structure for the application.
+
+---
+
+### Date: 19-10-2024
+
+1. **Authentication Pages Developed:**
+   - Created **Signup** and **Login** pages for user authentication.
+
+2. **Component Development:**
+   - Developed various UI components including:
+     - **CommentDialog** – For adding comments to posts.
+     - **Feed** – Displays a feed of posts.
+     - **Home** – Main landing page for users.
+     - **LeftSidebar** – Navigation for the app.
+     - **MainLayout** – Base layout for the application.
+     - **Post** – Represents individual posts.
+     - **Posts** – Lists multiple posts.
+
+3. **Dynamic Data Handling:**
+   - Currently using hardcoded values for the frontend components; next step is to implement dynamic data fetching from the backend.

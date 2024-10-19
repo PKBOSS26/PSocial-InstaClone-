@@ -7,9 +7,8 @@ import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 
-const Signup = () => {
+const Login = () => {
     const [input, setInput] = useState({
-        username: "",
         email: "",
         password: ""
     });
@@ -17,12 +16,12 @@ const Signup = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const signupHandler = async (e) => {
+    const loginHandler = async (e) => {
         e.preventDefault();
         try {
             setLoading(true);
             const res = await axios.post(
-                "http://localhost:3000/api/v1/user/signup",
+                "http://localhost:3000/api/v1/user/login",
                 input,
                 {
                     headers: {
@@ -33,10 +32,9 @@ const Signup = () => {
             );
 
             if (res.data.success) {
-                navigate("/login");
+                navigate("/");
                 toast.success(res.data.message);
                 setInput({
-                    username: "",
                     email: "",
                     password: ""
                 })
@@ -45,31 +43,20 @@ const Signup = () => {
             console.error(err);
             const errorMessage = err.response?.data?.message || "Something went wrong";
             toast.error(errorMessage);
-        }finally {
+        } finally {
             setLoading(false);
         }
     };
 
     return (
         <div className="w-full h-screen flex justify-center items-center">
-            <form 
-                onSubmit={signupHandler} 
+            <form
+                onSubmit={loginHandler}
                 className="shadow-lg flex flex-col gap-5 p-8 w-96 rounded-md"
             >
                 <div className="my-4 text-center">
                     <h1 className="text-2xl font-semibold">P-Social</h1>
-                    <p className="text-sm text-gray-500">Signup to continue</p>
-                </div>
-
-                <div>
-                    <Label htmlFor="username">Username</Label>
-                    <Input
-                        type="text"
-                        name="username"
-                        value={input.username}
-                        onChange={(e) => setInput({ ...input, username: e.target.value })}
-                        placeholder="Enter your username"
-                    />
+                    <p className="text-sm text-gray-500">Login to continue</p>
                 </div>
 
                 <div>
@@ -105,10 +92,10 @@ const Signup = () => {
                     )}
                 </Button>
 
-                <span className="text-center">Already have an account? <Link className="text-blue-500" to="/login" >Login</Link></span>
+                <span className="text-center">Don't have an account? <Link className="text-blue-500" to="/signup" >Signup</Link></span>
             </form>
         </div>
     );
 };
 
-export default Signup;
+export default Login;
