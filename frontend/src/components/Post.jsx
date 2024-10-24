@@ -8,11 +8,13 @@ import sendSvg from '../assets/send-svgrepo-com.svg';
 import commentSvg from '../assets/comment-1-svgrepo-com.svg';
 import bookmarkSvg from '../assets/bookmark-svgrepo-com.svg';
 import CommentDialog from './CommentDialog';
+import { useSelector } from 'react-redux';
 
 
-const Post = ({ username, avatarSrc, postImage }) => {
+const Post = ({ post }) => {
     const [text, setText] = useState('');
     const [open, setOpen] = useState(false);
+    const {user} = useSelector(store => store.auth)
 
     const changeEvenetHandler = (e) => {
         const inputText = e.target.value
@@ -28,10 +30,10 @@ const Post = ({ username, avatarSrc, postImage }) => {
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                     <Avatar>
-                        <AvatarImage src={avatarSrc} alt={`${username}'s avatar`} />
+                        <AvatarImage src={post.author?.profilePicture} alt={`${post.author.username}'s avatar`} />
                         <AvatarFallback>UN</AvatarFallback>
                     </Avatar>
-                    <h1 className="font-semibold">{username}</h1>
+                    <h1 className="font-semibold">{post.author?.username}</h1>
                 </div>
 
                 {/* More Options Dialog */}
@@ -44,7 +46,10 @@ const Post = ({ username, avatarSrc, postImage }) => {
                             Unfollow
                         </Button>
                         <Button variant="ghost" className="w-fit cursor-pointer">Add to favorites</Button>
-                        <Button variant="ghost" className="w-fit font-bold cursor-pointer">Delete</Button>
+                        {
+                            user && user?._id === post.author._id &&
+                            <Button variant="ghost" className="w-fit font-bold cursor-pointer">Delete</Button>
+                        }
                     </DialogContent>
                 </Dialog>
             </div>
@@ -53,7 +58,7 @@ const Post = ({ username, avatarSrc, postImage }) => {
             <div>
                 <img
                     className="rounded-sm my-2 w-full aspect-square object-cover"
-                    src={postImage}
+                    src={post.image}
                     alt="Post content" 
                 />
             </div>
@@ -72,11 +77,11 @@ const Post = ({ username, avatarSrc, postImage }) => {
                     <img src={bookmarkSvg} alt="Bookmark" className="w-6 h-6 cursor-pointer" />
                 </div>
             </div>
-            <span className='text-gray-500 font-medium'>1K likes</span>
+            <span className='text-gray-500 font-medium'>{post.likes.length} likes</span>
             
             <p>
-                <span className='font-medium mr-2'>Username</span>
-                Caption
+                <span className='font-medium mr-2'>{post.author.username}</span>
+                {post.caption}
             </p>
             <span className='text-gray-500 font-medium cursor-pointer' onClick={() => setOpen(true)}>View all 10 comments</span>
             <CommentDialog open={open} setOpen={setOpen}/>
@@ -94,12 +99,6 @@ const Post = ({ username, avatarSrc, postImage }) => {
             </div>
         </div>
     );
-};
-
-Post.defaultProps = {
-    username: 'Username',
-    avatarSrc: 'https://github.com/shadcn.png',
-    postImage: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_640.jpg',
 };
 
 export default Post;

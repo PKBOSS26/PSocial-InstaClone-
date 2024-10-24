@@ -1,33 +1,21 @@
 import {
     Heart, Home, LogOut, MessageCircle, PlusSquare, Search, TrendingUp, Github, Instagram, Linkedin, Twitter
 } from 'lucide-react';
-import React from 'react';
+import { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import CreatePost from './CreatePost';
+import { setAuthUser } from '@/redux/authSlice';
 
-const SidebarItems = [
-    { icon: <Home />, text: 'Home' },
-    { icon: <Search />, text: 'Search' },
-    { icon: <TrendingUp />, text: 'Explore' },
-    { icon: <MessageCircle />, text: 'Messages' },
-    { icon: <Heart />, text: 'Notifications' },
-    { icon: <PlusSquare />, text: 'Create' },
-    {
-        icon: (
-            <Avatar className="w-8 h-8">
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-        ),
-        text: 'Profile',
-    },
-    { icon: <LogOut />, text: 'Logout' },
-];
 
 const LeftSidebar = () => {
+    const [open, setOpen] = useState(false);
     const navigate = useNavigate();
+    const {user} = useSelector((store => store.auth));
+    const dispatch = useDispatch();
 
     const logoutHandler = async () => {
         try {
@@ -35,6 +23,7 @@ const LeftSidebar = () => {
                 withCredentials: true,
             });
             if (res.data.success) {
+                dispatch(setAuthUser(null));
                 navigate('/login');
                 toast.success(res.data.message);
             }
@@ -44,13 +33,37 @@ const LeftSidebar = () => {
         }
     };
 
+    const createPostHandler = () => {
+        setOpen(true);
+    }
+
     const sidebarHandler = (text) => {
         if (text === 'Logout') {
             logoutHandler();
             return;
+        }else if (text === 'Create') {
+            createPostHandler();
         }
-        navigate(`/${text}`);
     };
+
+    const SidebarItems = [
+        { icon: <Home />, text: 'Home' },
+        { icon: <Search />, text: 'Search' },
+        { icon: <TrendingUp />, text: 'Explore' },
+        { icon: <MessageCircle />, text: 'Messages' },
+        { icon: <Heart />, text: 'Notifications' },
+        { icon: <PlusSquare />, text: 'Create' },
+        {
+            icon: (
+                <Avatar className="w-8 h-8">
+                    <AvatarImage src={user?.profilePicture} alt="Avatar" />
+                    <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+            ),
+            text: 'Profile',
+        },
+        { icon: <LogOut />, text: 'Logout' },
+    ];
 
     return (
         <div className="fixed top-0 h-screen w-[17%] border-r border-gray-300 bg-white shadow-md z-10 p-6 flex flex-col justify-between">
@@ -76,6 +89,9 @@ const LeftSidebar = () => {
                     ))}
                 </div>
             </div>
+
+            {/* Create Post */}
+            <CreatePost open={open} setOpen={setOpen} />
 
             {/* Social Links Footer */}
             <div className="mt-10 text-center">

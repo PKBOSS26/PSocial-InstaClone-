@@ -7,7 +7,7 @@ This project is an Instagram clone that allows users to share photos, follow oth
 
 ## Timeline
 
-### Date: 16-10-2024
+### Till Date: 16-10-2024
 
 1. **Models Created:**
    - **User Model** – Handles user information and authentication.
@@ -99,13 +99,44 @@ This was a productive day focused on developing the post-related functionalities
 
 2. **Component Development:**
    - Developed various UI components including:
-     - **CommentDialog** – For adding comments to posts.
-     - **Feed** – Displays a feed of posts.
+     - **MainLayout** – Base layout for the application.
      - **Home** – Main landing page for users.
      - **LeftSidebar** – Navigation for the app.
-     - **MainLayout** – Base layout for the application.
-     - **Post** – Represents individual posts.
+     - **Feed** – Displays a feed of posts.
      - **Posts** – Lists multiple posts.
+     - **Post** – Represents individual posts.
+     - **CommentDialog** – For adding comments to posts.
+   - Set up routing and navigation between components.
 
 3. **Dynamic Data Handling:**
    - Currently using hardcoded values for the frontend components; next step is to implement dynamic data fetching from the backend.
+
+---
+
+### Until Date: 24-10-2024
+
+1. **State Management Setup:**
+   - Integrated **Redux** for state management.
+     - Created **store.js** and configured it for persistence.
+     - Developed **authSlice.js** for authentication-related state.
+
+2. **CreatePost Component Developed:**
+   - Implemented **CreatePost.jsx** to handle post creation.
+     - Allows users to upload images and add captions.
+     - Features a preview of the uploaded image before submission.
+
+3. **Utility Functions Created:**
+   - Developed `readFileAsDataURL` in the utilities for handling file input.
+
+4. **Post Slice Created:**
+   - Implemented **postSlice.js** for managing post-related state.
+
+5. **Custom Hooks Developed:**
+   - Created **useGetAllPosts** for fetching all posts.
+
+6. **Dynamic User Information:**
+   - Made username, profile picture, and caption dynamic in posts and the CreatePost component.
+
+7. **Optimized User Experience:**
+   - Dispatched posts to the Redux store to avoid page refreshes when new posts are added.
+   - Restricted post deletion to only the author of the post.
