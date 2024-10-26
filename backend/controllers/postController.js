@@ -2,7 +2,7 @@ import sharp from "sharp";
 import cloudinary from "../utils/cloudinary.js";
 import { Post } from "../model/postModel.js";
 import { User } from "../model/userModel.js";
-import Comment from "../model/commentModel.js";
+import { Comment } from "../model/commentModel.js";
 
 export const addNewPost = async (req, res) => {
     try {
@@ -129,27 +129,41 @@ export const dislikePost = async (req, res) => {
 };
 
 
-export const addComment = async(req, res) => {
-    try{
+export const addComment = async (req,res) =>{
+    try {
         const postId = req.params.id;
-        const comment = req.body.comment;
-        const commenterId = req.id;
+        const commentKrneWalaUserKiId = req.id;
+
+        const {text} = req.body;
+
         const post = await Post.findById(postId);
 
-        if(!post) return res.status(404).json({msg: "Post not found", success: false});
-        if(!comment) return res.status(400).json({msg: "Comment is required", success: false});
+        if(!text) return res.status(400).json({message:'text is required', success:false});
 
-        const newComment = await Comment.create({comment, author: commenterId, post: postId}); //it will create a new comment
-        await newComment.populate({path: 'author', select: 'username profilepicture'}).execPopulate(); //it will add the username and profilepicture to the new comment
+        const comment = await Comment.create({
+            text,
+            author:commentKrneWalaUserKiId,
+            post:postId
+        })
 
-        post.comments.push(newComment._id);
+        await comment.populate({
+            path:'author',
+            select:"username profilePicture"
+        });
+        
+        post.comments.push(comment._id);
         await post.save();
-        res.status(200).json({success: true, msg: "Comment added", newComment});
-    }catch(err){
-        console.log(err);
-        res.status(500).json({ success: false, msg: 'Failed to add comment' });
+
+        return res.status(201).json({
+            message:'Comment Added',
+            comment,
+            success:true
+        })
+
+    } catch (error) {
+        console.log(error);
     }
-}
+};
 
 export const getCommentsOfPost = async(req, res) => {
     try{
@@ -256,3 +270,4 @@ export const bookmarkPost = async (req, res) => {
         res.status(500).json({ success: false, msg: 'Failed to bookmark post' });
     }
 };
+

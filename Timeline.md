@@ -140,3 +140,25 @@ This was a productive day focused on developing the post-related functionalities
 7. **Optimized User Experience:**
    - Dispatched posts to the Redux store to avoid page refreshes when new posts are added.
    - Restricted post deletion to only the author of the post.
+
+---
+
+### Date: 26-10-2024
+
+1. **Delete Post Functionality Implemented:**
+   - Developed a robust mechanism to allow users to delete their own posts.
+   - Ensured that only the post's author can initiate deletion, with confirmation prompts to prevent accidental removals.
+   - Enhanced error handling to manage cases where the post may not exist or the user lacks permissions.
+
+2. **Like/Dislike Functionality Added:**
+   - Implemented the ability for users to like and dislike posts.
+   - Utilized an intuitive button interface that reflects the current state of likes for each post.
+   - Integrated real-time updates to ensure the like count reflects the latest interactions.
+
+3. **Comment Functionality Enhanced:**
+   - Improved the comment feature by allowing users to add their comments on posts.
+   - Implemented a user-friendly interface for commenting, with dynamic updates that show new comments immediately after submission.
+   - Ensured that comments are linked to the respective post, with appropriate notifications for any actions taken.
+
+---
+

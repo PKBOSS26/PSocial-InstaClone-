@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import CreatePost from './CreatePost';
 import { setAuthUser } from '@/redux/authSlice';
+import { setPosts, setSelectedPost } from '@/redux/postSlice';
 
 
 const LeftSidebar = () => {
@@ -24,6 +25,8 @@ const LeftSidebar = () => {
             });
             if (res.data.success) {
                 dispatch(setAuthUser(null));
+                dispatch(setSelectedPost(null));
+                dispatch(setPosts([]));
                 navigate('/login');
                 toast.success(res.data.message);
             }
