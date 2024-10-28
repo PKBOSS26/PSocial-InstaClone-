@@ -3,7 +3,8 @@ import Signup from './components/Signup';
 import Login from './components/Login';
 import MainLayout from './components/MainLayout';
 import Home from './components/Home';
-import Profile from './components/Profile'; // Import Profile component
+import Profile from './components/Profile'; 
+import EditProfile from './components/EditProfile';
 
 const browserRouter = createBrowserRouter([
   {
@@ -14,11 +15,15 @@ const browserRouter = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
+      {
+        path: "profile/:id",
+        element: <Profile />,
+      },
+      {
+        path: 'account/:id',
+        element: <EditProfile />,
+      }
     ],
-  },
-  {
-    path: "/profile",
-    element: <Profile />,
   },
   {
     path: "/login",

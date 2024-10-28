@@ -9,7 +9,7 @@ router.route('/signup').post(signup);
 router.route('/login').post(login);
 router.route('/logout').get(logOut);
 router.route('/:id/profile').get(isAuthenticated, getProfile);
-router.route('/profile/edit').post(isAuthenticated, upload.single('profilePicture'), editProfile); //multer err unexpected field
+router.route('/profile/edit').post(isAuthenticated, upload.single('profilePhoto'), editProfile); //multer err unexpected field
 router.route('/suggested').get(isAuthenticated, getSuggestedUser);
 router.route('/followOrUnfollow/:id').post(isAuthenticated, followUnfollow);
 

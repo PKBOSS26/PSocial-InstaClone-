@@ -93,7 +93,7 @@ export const logOut = async (_, res) => {
 export const getProfile = async (req, res) => {
     try {
         const userId = req.params.id || req.id;
-        const user = await User.findById(userId).select("-password");
+        const user = await User.findById(userId).populate({ path: "posts", createdAt: -1,}).populate('bookmarks').select("-password");
         if (!user) {
             return res.status(404).json({ msg: "User not found", success: false });
         }

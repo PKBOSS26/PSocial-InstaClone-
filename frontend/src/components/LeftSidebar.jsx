@@ -36,16 +36,16 @@ const LeftSidebar = () => {
         }
     };
 
-    const createPostHandler = () => {
-        setOpen(true);
-    }
-
     const sidebarHandler = (text) => {
         if (text === 'Logout') {
             logoutHandler();
             return;
         }else if (text === 'Create') {
-            createPostHandler();
+            setOpen(true);
+        }else if(text === 'Profile'){
+            navigate(`/profile/${user?._id}`);
+        }else if(text === 'Home'){
+            navigate('/');
         }
     };
 

@@ -162,3 +162,24 @@ This was a productive day focused on developing the post-related functionalities
 
 ---
 
+### Date: 28-10-2024
+
+1. **Right Sidebar and Suggested Users Component:**
+   - Developed the **RightSidebar** to display suggested users for the logged-in user to follow.
+   - Implemented logic to dynamically fetch and show suggested users.
+
+2. **Profile Component:**
+   - Created the **Profile Component** to display detailed user information, including:
+     - Username, profile picture, bio, and the number of posts, followers, and following.
+     - Option to **follow/unfollow** users directly from their profile.
+
+3. **Edit Profile Functionality:**
+   - Developed the **Edit Profile Page** to allow users to update:
+     - Profile picture, bio, username, and other personal details.
+   - Added **real-time validation** for input fields and success/error notifications after updates.
+
+4. **Custom Hooks Developed:**
+   - **useGetSuggestedUsers.jsx** – Fetches a list of users to be suggested for following.
+   - **useGetUserProfile.jsx** – Retrieves the detailed profile information of a user based on their ID.
+
+--- 
