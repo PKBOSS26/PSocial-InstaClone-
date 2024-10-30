@@ -3,6 +3,7 @@ import cloudinary from "../utils/cloudinary.js";
 import { Post } from "../model/postModel.js";
 import { User } from "../model/userModel.js";
 import { Comment } from "../model/commentModel.js";
+import { io } from "../socket/socket.js";
 
 export const addNewPost = async (req, res) => {
     try {
@@ -82,7 +83,6 @@ export const getPostById = async (req, res) => {
     }
 };
 
-
 export const likePost = async (req, res) => {
     try {
         const likersId = req.id;
@@ -91,20 +91,41 @@ export const likePost = async (req, res) => {
 
         if (!post) return res.status(404).json({ msg: "Post not found", success: false });
 
-        // Like logic
+        // Check if the post is already liked by this user
         if (post.likes.includes(likersId)) {
             return res.status(400).json({ msg: "Already liked", success: false });
         }
 
+        // Add the like
         await post.updateOne({ $addToSet: { likes: likersId } });
-        await post.save();
 
-        // TODO: Implement Socket.io notification logic here
+        // Notification logic
+        const user = await User.findById(likersId).select('username profilePicture');
+        const postAuthor = post.author.toString();
+
+        if (postAuthor !== likersId) {
+            const notification = {
+                Type: 'like',
+                userId: likersId,
+                userDetails: user,
+                postId: postId,
+                message: `${user.username} liked your post`,
+            };
+
+            try {
+                const postAuthorSocketId = getSocketId(postAuthor);
+                if (postAuthorSocketId) {
+                    io.to(postAuthorSocketId).emit('notification', notification);
+                }
+            } catch (socketError) {
+                console.error("Socket notification failed:", socketError);
+            }
+        }
 
         res.status(200).json({ success: true, msg: "Post liked" });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, msg: 'Failed to like post' });
+        console.error("Error liking post:", err.message, err.stack);
+        res.status(500).json({ success: false, msg: 'Failed to like post', error: err.message });
     }
 };
 
@@ -121,6 +142,23 @@ export const dislikePost = async (req, res) => {
         await post.updateOne({ $pull: { likes: dislikersId } });
         await post.save();
 
+        // TODO: Implement Socket.io notification logic here
+        const user  = await User.findById(likersId).select('username profilePicture');
+        const postAuthor = post.author.toString();
+        if(postAuthor !== likersId){
+            //emit notification
+            const notification = {
+                Type: 'dislike',
+                userId: likersId,
+                userDetails: user,
+                postId: postId,
+                message: `${user.username} disliked your post`,
+            };
+            const postAuthorSocketId = getSocketId(postAuthor);
+            if (postAuthorSocketId) {
+                io.to(postAuthorSocketId).emit('notification', notification);
+            }
+        }
         res.status(200).json({ success: true, msg: "Post disliked" });
     } catch (err) {
         console.error(err);
@@ -132,7 +170,7 @@ export const dislikePost = async (req, res) => {
 export const addComment = async (req,res) =>{
     try {
         const postId = req.params.id;
-        const commentKrneWalaUserKiId = req.id;
+        const commentersId = req.id;
 
         const {text} = req.body;
 
@@ -142,7 +180,7 @@ export const addComment = async (req,res) =>{
 
         const comment = await Comment.create({
             text,
-            author:commentKrneWalaUserKiId,
+            author:commentersId,
             post:postId
         })
 

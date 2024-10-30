@@ -11,7 +11,7 @@ router.route('/all').get(getAllPosts); // Get all posts
 router.route('/userposts/:id').get(getPostById); // Get a post by ID
 router.route('/:id/like').get(isAuthenticated, likePost); // Like a post
 router.route('/:id/dislike').get(isAuthenticated, dislikePost); // Dislike a post
-router.route('/:id/bookmark').post(isAuthenticated, bookmarkPost); // Bookmark a post
+router.route('/:id/bookmark').get(isAuthenticated, bookmarkPost); // Bookmark a post
 router.route('/delete/:id').delete(isAuthenticated, deletePost); // Delete a post
 
 // Comment Routes

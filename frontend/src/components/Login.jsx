@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
@@ -6,7 +6,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAuthUser } from "@/redux/authSlice";
 
 const Login = () => {
@@ -18,6 +18,7 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const {user} = useSelector(store => store.auth)
 
     const loginHandler = async (e) => {
         e.preventDefault();
@@ -52,6 +53,11 @@ const Login = () => {
         }
     };
 
+    useEffect(() => {
+        if(user){
+            navigate("/");
+        }
+    }, [])
     return (
         <div className="w-full h-screen flex justify-center items-center">
             <form

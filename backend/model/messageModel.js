@@ -1,17 +1,20 @@
 import mongoose from "mongoose";
 
+// Define the message schema
 const messageSchema = new mongoose.Schema({
     senderId: {
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
-    receiverId:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
+    receiverId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User' // Reference to the User model
     },
     message: {
-        type:String,
+        type: String,
         required: true
     }
 });
-export const Message = mongoose.model('messageSchema', messageSchema);
+
+// Register the model with a proper name
+export const Message = mongoose.model('Message', messageSchema); 
