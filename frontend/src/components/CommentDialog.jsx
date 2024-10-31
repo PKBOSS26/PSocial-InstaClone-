@@ -38,7 +38,7 @@ const CommentDialog = ({ open, setOpen }) => {
         }
 
         try {
-            const res = await axios.post(`https://psocial.onrender.com/api/v1/post/${selectedPost._id}/comment`, { text },
+            const res = await axios.post(`https://psocial.kalehub.com/api/v1/post/${selectedPost._id}/comment`, { text },
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true,

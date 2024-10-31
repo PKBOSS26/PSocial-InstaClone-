@@ -29,7 +29,7 @@ const ChatPage = () => {
 
             try {
                 const res = await axios.post(
-                    `https://psocial.onrender.com/api/v1/message/send/${receiverId}`,
+                    `https://psocial.kalehub.com/api/v1/message/send/${receiverId}`,
                     { textMessage: textMessage },
                     {
                         headers: { 'Content-Type': 'application/json' },

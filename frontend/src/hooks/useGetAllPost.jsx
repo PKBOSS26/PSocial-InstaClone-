@@ -9,7 +9,7 @@ const useGetAllPost = () => {
   useEffect(() => {
     const fetchAllPost = async () => {
       try {
-        const res = await axios.get("https://psocial.onrender.com/api/v1/post/all", {
+        const res = await axios.get("https://psocial.kalehub.com/api/v1/post/all", {
           withCredentials: true,
         });
 

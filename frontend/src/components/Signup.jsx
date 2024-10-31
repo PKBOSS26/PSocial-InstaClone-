@@ -24,7 +24,7 @@ const Signup = () => {
         try {
             setLoading(true);
             const res = await axios.post(
-                "https://psocial.onrender.com/api/v1/user/signup",
+                "https://psocial.kalehub.com/api/v1/user/signup",
                 input,
                 {
                     headers: {

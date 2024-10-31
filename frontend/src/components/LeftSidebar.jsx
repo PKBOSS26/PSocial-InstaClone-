@@ -27,7 +27,7 @@ const LeftSidebar = () => {
 
     const logoutHandler = async () => {
         try {
-            const res = await axios.get('https://psocial.onrender.com/api/v1/user/logout', {
+            const res = await axios.get('https://psocial.kalehub.com/api/v1/user/logout', {
                 withCredentials: true,
             });
             if (res.data.success) {

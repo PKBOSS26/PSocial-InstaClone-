@@ -17,9 +17,13 @@ import ProtectedRoutes from './components/ProtectedRoutes';
 const browserRouter = createBrowserRouter([
   {
     path: "/",
-    element: <ProtectedRoutes><MainLayout /></ProtectedRoutes>,
+    element: (
+      <ProtectedRoutes>
+        <MainLayout />
+      </ProtectedRoutes>
+    ),
     children: [
-      { index: true, element: <Home /> },
+      { index: true, element: <Home /> },  // Default route
       { path: "profile/:id", element: <Profile /> },
       { path: "account/:id", element: <EditProfile /> },
       { path: "chat", element: <ChatPage /> },
@@ -38,7 +42,7 @@ function App() {
     let socketio;
 
     if (user) {
-      socketio = io("http://localhost:3000", {
+      socketio = io("https://psocial.kalehub.com", {
         query: { userId: user._id },
         transports: ["websocket"],
       });

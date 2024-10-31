@@ -13,7 +13,7 @@ const useGetAllMessage = () => {
         const fetchAllMessage = async () => {
             try {
                 const res = await axios.get(
-                    `https://psocial.onrender.com/api/v1/message/all/${selectedUser._id}`,
+                    `https://psocial.kalehub.com/api/v1/message/all/${selectedUser._id}`,
                     { withCredentials: true }
                 );
                 console.log('Fetched Messages:', res.data); // Debugging log

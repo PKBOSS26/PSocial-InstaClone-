@@ -15,15 +15,6 @@ const PORT = process.env.PORT || 3000;
 
 const __dirname = path.resolve();
 
-
-// Root route
-app.get("/", (req, res) => {
-    return res.status(200).json({
-        msg: "talking from be",
-        success: true
-    });
-});
-
 // Middleware
 app.use(express.json());
 app.use(cookieParser());

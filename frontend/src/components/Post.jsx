@@ -42,7 +42,7 @@ const Post = ({ post }) => {
 
     const deletePostHandler = async () => {
         try {
-            const res = await axios.delete(`https://psocial.onrender.com/api/v1/post/delete/${post._id}`, { withCredentials: true });
+            const res = await axios.delete(`https://psocial.kalehub.com/api/v1/post/delete/${post._id}`, { withCredentials: true });
             if (res.data.success) {
                 const updatedPostData = posts.filter((p) => p?._id !== post?._id);
                 dispatch(setPosts(updatedPostData));
@@ -58,7 +58,7 @@ const Post = ({ post }) => {
     const likeOrDislikeHandler = async () => {
         try {
             const action = liked ? 'dislike' : 'like';
-            const res = await axios.get(`https://psocial.onrender.com/api/v1/post/${post._id}/${action}`, { withCredentials: true });
+            const res = await axios.get(`https://psocial.kalehub.com/api/v1/post/${post._id}/${action}`, { withCredentials: true });
             console.log(res.data);
 
             if (res.data.success) {
@@ -86,7 +86,7 @@ const Post = ({ post }) => {
     const commentHandler = async () => {
 
         try {
-            const res = await axios.post(`https://psocial.onrender.com/api/v1/post/${post._id}/comment`, { text }, {
+            const res = await axios.post(`https://psocial.kalehub.com/api/v1/post/${post._id}/comment`, { text }, {
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -112,7 +112,7 @@ const Post = ({ post }) => {
 
     const bookmarkHandler = async () => {
         try {
-            const res = await axios.get(`https://psocial.onrender.com/api/v1/post/${post._id}/bookmark`, { withCredentials: true });
+            const res = await axios.get(`https://psocial.kalehub.com/api/v1/post/${post._id}/bookmark`, { withCredentials: true });
 
             if (res.data.success) {
                 toast.success(res.data.message);

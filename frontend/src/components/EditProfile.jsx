@@ -56,7 +56,7 @@ const EditProfile = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        'https://psocial.onrender.com/api/v1/user/profile/edit',
+        'https://psocial.kalehub.com/api/v1/user/profile/edit',
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
