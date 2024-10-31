@@ -25,7 +25,7 @@ const Login = () => {
         try {
             setLoading(true);
             const res = await axios.post(
-                "http://localhost:3000/api/v1/user/login",
+                "https://psocial.onrender.com/api/v1/user/login",
                 input,
                 {
                     headers: {

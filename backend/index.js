@@ -31,7 +31,7 @@ app.use(urlencoded({ extended: true }));
 
 //CORS configuration
 const corsOptions = {
-    origin: "http://localhost:5173", // Frontend origin
+    origin: process.env.URL, // Frontend origin
     credentials: true // Correct key for allowing credentials
 };
 app.use(cors(corsOptions));

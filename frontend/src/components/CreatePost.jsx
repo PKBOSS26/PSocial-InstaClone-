@@ -40,7 +40,7 @@ const CreatePost = ({ open, setOpen }) => {
     try {
       setLoading(true);
       const res = await axios.post(
-        'http://localhost:3000/api/v1/post/addpost',
+        'https://psocial.onrender.com/api/v1/post/addpost',
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },

@@ -12,7 +12,7 @@ const useGetUserProfile = (userId) => {
     const fetchUserProfile = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/v1/user/${userId}/profile`, 
+          `https://psocial.onrender.com/api/v1/user/${userId}/profile`, 
           { withCredentials: true }
         );
 
